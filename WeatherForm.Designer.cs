@@ -166,6 +166,7 @@
             this.lblWhere.AutoSize = true;
             this.lblWhere.BackColor = System.Drawing.Color.Transparent;
             this.lblWhere.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWhere.ForeColor = System.Drawing.Color.White;
             this.lblWhere.Location = new System.Drawing.Point(56, 18);
             this.lblWhere.Name = "lblWhere";
             this.lblWhere.Size = new System.Drawing.Size(152, 25);
@@ -178,6 +179,7 @@
             this.lblTemp.AutoSize = true;
             this.lblTemp.BackColor = System.Drawing.Color.Transparent;
             this.lblTemp.Font = new System.Drawing.Font("Microsoft Sans Serif", 39.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTemp.ForeColor = System.Drawing.Color.White;
             this.lblTemp.Location = new System.Drawing.Point(78, 155);
             this.lblTemp.Name = "lblTemp";
             this.lblTemp.Size = new System.Drawing.Size(87, 61);
@@ -190,6 +192,7 @@
             this.lblFeelsLike.AutoSize = true;
             this.lblFeelsLike.BackColor = System.Drawing.Color.Transparent;
             this.lblFeelsLike.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFeelsLike.ForeColor = System.Drawing.Color.White;
             this.lblFeelsLike.Location = new System.Drawing.Point(74, 216);
             this.lblFeelsLike.Name = "lblFeelsLike";
             this.lblFeelsLike.Size = new System.Drawing.Size(113, 18);
