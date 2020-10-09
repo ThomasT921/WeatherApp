@@ -159,8 +159,8 @@ namespace WeatherApp
             }));
             //pushes the result to work completed
             e.Result = resultList;
-            //waits 21 min per api
-            Thread.Sleep(1260 * 1000);
+            //waits 10 min per api
+            Thread.Sleep(600 * 1000);
         }
         //after it gets data and updates
         private void RunWorkCompleted(object sender, RunWorkerCompletedEventArgs e)
