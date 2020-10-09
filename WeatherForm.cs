@@ -18,14 +18,16 @@ using WeatherApp;
 
 namespace WeatherApp
 {
-    public partial class Form1 : Form
+    public partial class WeatherForm : Form
     {
-        public Form1()
+        public WeatherForm()
         {
             InitializeComponent();
             //mouse over effects
             button1.MouseEnter += OnMouseEnterButton1;
             button1.MouseLeave += OnMouseLeaveButton1;
+            button3.MouseEnter += OnMouseEnterButton3;
+            button3.MouseLeave += OnMouseLeaveButton3;
             button2.MouseEnter += OnMouseEnterButton2;
             button2.MouseLeave += OnMouseLeaveButton2;
 
@@ -39,11 +41,25 @@ namespace WeatherApp
         {
             //changed exit X to red
             button1.ForeColor = Color.Red;
+            button1.BackColor = Color.Transparent;
+        }
+        private void OnMouseLeaveButton3(object sender, EventArgs e)
+        {
+            //changes it back to gray
+            button3.ForeColor = Color.DimGray;
+            button3.BackColor = Color.Transparent;
+        }
+        private void OnMouseEnterButton3(object sender, EventArgs e)
+        {
+            //changed exit X to red
+            button3.ForeColor = Color.Red;
+            button3.BackColor = Color.Transparent;
         }
         private void OnMouseLeaveButton1(object sender, EventArgs e)
         {
             //changes it back to gray
             button1.ForeColor = Color.DimGray;
+            button1.BackColor = Color.Transparent;
         }
         private void OnMouseEnterButton2(object sender, EventArgs e)
         {
@@ -242,6 +258,11 @@ namespace WeatherApp
             pbDescrip.Visible = true;
             lblTemp.Visible = true;
             lblFeelsLike.Visible = true;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            WindowState = FormWindowState.Minimized;
         }
     }
 }
