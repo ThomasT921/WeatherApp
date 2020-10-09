@@ -196,7 +196,7 @@ namespace WeatherApp
             string city = txtCity.Text.ToLower();
             string state = comboState.Text.ToUpper();
             string place = city + "," + state;
-            string key = "a2b5ae2cabe64e28861e30307f810582";
+            var key = Creds.APIKEY;
             List<string> arguementList = new List<string>();
             arguementList.Add(place);
             arguementList.Add(key);
