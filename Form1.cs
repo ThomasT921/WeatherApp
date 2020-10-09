@@ -23,6 +23,7 @@ namespace WeatherApp
         public Form1()
         {
             InitializeComponent();
+            //mouse over effects
             button1.MouseEnter += OnMouseEnterButton1;
             button1.MouseLeave += OnMouseLeaveButton1;
             button2.MouseEnter += OnMouseEnterButton2;
@@ -36,40 +37,48 @@ namespace WeatherApp
         }
         private void OnMouseEnterButton1(object sender, EventArgs e)
         {
+            //changed exit X to red
             button1.ForeColor = Color.Red;
         }
         private void OnMouseLeaveButton1(object sender, EventArgs e)
         {
+            //changes it back to gray
             button1.ForeColor = Color.DimGray;
         }
         private void OnMouseEnterButton2(object sender, EventArgs e)
         {
+            //adds color to get weather button
             button2.BackColor = Color.LightGray;
         }
         private void OnMouseLeaveButton2(object sender, EventArgs e)
         {
+            //makes it transparent again
             button2.BackColor = Color.Transparent;
         }
-
+        //background worker work
         private void dowork(object sender, DoWorkEventArgs e)
         {
+            //gets passed args
             List<string> arguementList = (List<string>)e.Argument;
-
+            //assigns the then to vars
             string place = arguementList[0];
             string key = arguementList[1];
-
+            //pulling the json data
             WebClient client = new WebClient();
             string jsonDataString = client.DownloadString("https://api.weatherbit.io/v2.0/current?city=" + place + "&key=" + key + "&units=I");
-
+            //putting it into a dict
             var dobj = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonDataString);
-
+            //working down to the actual data
             dynamic dataSet = dobj["data"];
             dynamic dataSet1 = dataSet[0];
-            
+            //creates data handling obj
             WeatherHandler weatherData = new WeatherHandler(dataSet1);
+            //creates a list to pass the key and place
             List<string> resultList = new List<string>();
             resultList.Add(place);
             resultList.Add(key);
+
+            //can go futher with a forecast with these lists
             /*List<int> sunshineList = new List<int>() { 800, 801, 802};
             List<int> thunderstormList = new List<int>() { 200, 201, 202, 230, 231, 232 };
             List<int> rainList = new List<int>() { 300, 301, 302, 500, 501, 502, 520, 521, 522, 511, 900 };
@@ -79,9 +88,10 @@ namespace WeatherApp
             List<int> weirdList = new List<int>() { 700, 711, 721, 731 };*/
             //could customize different per each of these
 
-            //This is where I change UI
+            //changing UI here
             this.Invoke(new Action(() =>
             {
+                //refer to lists -- changes bg and icon per weather code//////////////////////////
                 if (weatherData.WeatherDescription >= 200 && weatherData.WeatherDescription <= 232)
                 {
                     this.BackgroundImage = Properties.Resources.stormbackground;
@@ -122,26 +132,35 @@ namespace WeatherApp
                     this.BackgroundImage = Properties.Resources.raining;
                     pbDescrip.BackgroundImage = Properties.Resources.raincloud;
                 }
+                ////////////////////////////////////////////////////////////////////////////////////
+                //updates the name of the city typed in
                 lblWhere.Text = weatherData.City.ToString() + ", " + weatherData.State.ToString();
+                //updates the temp
                 lblTemp.Text = weatherData.Temperature.ToString();
+                //updates the feels like temp
                 lblFeelsLike.Text = "Feels like: " + weatherData.FeelsLikeTemp.ToString();
 
             }));
+            //pushes the result to work completed
             e.Result = resultList;
+            //waits 21 min per api
             Thread.Sleep(1260 * 1000);
         }
-
+        //after it gets data and updates
         private void RunWorkCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            //checks for error on bg thread
             if (e.Error != null)
             {
                 MessageBox.Show(e.Error.ToString());
             }
             else
             {
+                //pulls vars from list
                 List<string> resultsList = (List<string>)e.Result;
                 string place = resultsList[0].ToString();
                 string key = resultsList[1].ToString();
+                //restarts the bg thread ///////////////////////
                 BackgroundWorker worker = new BackgroundWorker();
                 List<string> arguementList = new List<string>();
                 arguementList.Add(place);
@@ -149,14 +168,16 @@ namespace WeatherApp
                 worker.DoWork += dowork;
                 worker.RunWorkerCompleted += RunWorkCompleted;
                 worker.RunWorkerAsync(argument: arguementList);
-
+                ////////////////////////////////////////////////////
             }
         }
+        //makes sure only letters can be entered for city
         private void txtCity_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar))
                 e.Handled = true;
         }
+        //lets me move the window without the control bar on top
         protected override void WndProc(ref Message m)
         {
             switch (m.Msg)
@@ -170,14 +191,15 @@ namespace WeatherApp
 
             base.WndProc(ref m);
         }
-
+        //close button
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
+        //get weather button
         private void button2_Click(object sender, EventArgs e)
         {
+            //validation//////
             bool validated = false;
             while (!validated)
             {
@@ -192,19 +214,25 @@ namespace WeatherApp
                     break;
                 }
                 validated = true;
-            }
+            }////////////////////
+            //puts input into vars
             string city = txtCity.Text.ToLower();
             string state = comboState.Text.ToUpper();
+            //places input into correct state
             string place = city + "," + state;
+            //gets api key
             var key = Creds.APIKEY;
+            //creates a list for arguments to be pushed to the bg thread
             List<string> arguementList = new List<string>();
             arguementList.Add(place);
             arguementList.Add(key);
+            //bg thread
             BackgroundWorker worker = new BackgroundWorker();
             worker.DoWork += dowork;
             worker.RunWorkerCompleted += RunWorkCompleted;
             worker.RunWorkerAsync(argument: arguementList);
-
+            
+            //turns off and turns on items
             button2.Visible = false;
             label1.Visible = false;
             label2.Visible = false;

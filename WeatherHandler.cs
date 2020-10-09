@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace WeatherApp
 {
+    //class to handles json data
     class WeatherHandler
     {
         private string _wind_cdir, _pod, _timezone, _ob_time, _country_code, _wind_cdir_full,
@@ -19,7 +20,7 @@ namespace WeatherApp
         {
 
         }
-
+        //takes the dynamic object and turns it into the data I need in the overload construct
         public WeatherHandler(dynamic thing)
         {
             _wind_cdir = thing["wind_cdir"].ToString();
@@ -59,6 +60,7 @@ namespace WeatherApp
 
 
         }
+        //get methods
         public double Lattitude
         {
             get { return _lat; }
